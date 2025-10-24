@@ -93,7 +93,33 @@ resource "azurerm_network_interface" "nic1" {
   depends_on = [ azurerm_resource_group.rg1, azurerm_subnet.subnet1 ]
 }
 
+resource "azurerm_network_security_group" "sg1" {
+  name                = "pranav-nsg"
+  location            = azurerm_resource_group.rg1.location
+  resource_group_name = azurerm_resource_group.rg1.name
+  dynamic "security_rule" {
+    for_each = var.security_rules
+    content {
+      name                       = security_rule.value.name
+      priority                   = security_rule.value.priority
+      direction                  = security_rule.value.direction
+      access                     = security_rule.value.access
+      protocol                   = security_rule.value.protocol
+      source_port_range          = security_rule.value.source_port_range
+      destination_port_range     = security_rule.value.destination_port_range
+      source_address_prefix      = security_rule.value.source_address_prefix
+      destination_address_prefix = security_rule.value.destination_address_prefix
+    }
+  }
+  depends_on = [ azurerm_resource_group.rg1 ]
+}
 
+
+resource "azurerm_network_interface_security_group_association" "association1" {
+  network_interface_id      = azurerm_network_interface.nic1.id
+  network_security_group_id = azurerm_network_security_group.sg1.id
+  depends_on = [ azurerm_network_interface.nic1, azurerm_network_security_group.sg1 ]
+}
 
 
 
