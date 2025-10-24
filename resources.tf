@@ -157,6 +157,11 @@ resource "azurerm_linux_virtual_machine" "linux-vm" {
 
 
 
+
+
+
+
+
 # module "azure_vm" {
 #   source = "C:/terra-oct/azure/custom-modules"
 #   admin_username = "pranav"
