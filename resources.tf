@@ -1,53 +1,6 @@
-locals {
-  vm_size = {
-    default = "Standard_F2"
-    prod = "Standard_D2s_v3"
-    dev = "Standard_B1s"
-    stage = "Standard_B2s"
-  }
-}
-
-locals {
-  rg-names = {
-    default = "pranav-default-rg"
-    prod = "pranav-prod-rg"
-    dev = "pranav-dev-rg"
-    stage = "pranav-stage-rg"
-  }
-}
-
-locals {
-  location = {
-    default = "eastus"
-    prod = "centralus"
-    dev = "centralindia"
-    stage = "westus"
-  }
-}
-
-locals {
-  subscriptions = {
-    default = "123456"
-    prod = "112233"
-    dev = "444123"
-    stage = "789456"
-  }
-}
-
-
-locals {
-  vm_names = {
-    default = "pranav-default-vm"
-    prod = "pranav-prod-vm"
-    dev = "pranav-dev-vm"
-    stage = "pranav-stage-vm"
-  }
-}
-
-
 resource "azurerm_resource_group" "rg1" {
-  name = local.rg-names[terraform.workspace]
-  location = local.location[terraform.workspace]
+  name = "pranav-rg"
+  location = "eastus"
 }
 
 resource "azurerm_virtual_network" "vnet1" {
@@ -123,10 +76,10 @@ resource "azurerm_network_interface_security_group_association" "association1" {
 
 
 resource "azurerm_linux_virtual_machine" "linux-vm" {
-  name                = local.vm_names[terraform.workspace]
+  name                = "pranav-linux-vm"
   resource_group_name = azurerm_resource_group.rg1.name
   location            = azurerm_resource_group.rg1.location
-  size                = local.vm_size[terraform.workspace]
+  size                = "Standard_D2s_v3"
   admin_username      = "pranav"
   disable_password_authentication = false
   admin_password = "Pranav@123"
