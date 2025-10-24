@@ -144,16 +144,10 @@ variable "security_rules" {
   }]
 }
 
-
-
-# variable "destination" {
-#   default = [
-#     "/home/pranav/terra.log",
-#     "/tmp/terra.log",
-#     "/mnt/terra.log"
-#   ]
-# }
-
+variable "subscription_id" {}
+variable "client_id" {}
+variable "client_secret" {}
+variable "tenant_id" {}
 
 
 
